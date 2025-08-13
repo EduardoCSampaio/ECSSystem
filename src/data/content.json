@@ -101,6 +101,13 @@
           "description": "Automação de tarefas manuais e repetitivas no setor financeiro, reduzindo erros e liberando a equipe para atividades estratégicas.",
           "link": "#",
           "image": "https://placehold.co/600x400.png"
+        },
+        {
+          "id": "site7",
+          "title": "ECS - PDV",
+          "description": "Sistema de Ponto de Venda completo para varejo, com gestão de estoque, controle de caixa e emissão de notas fiscais, otimizando a operação da loja.",
+          "link": "#",
+          "image": "https://placehold.co/600x400.png"
         }
       ]
     }
