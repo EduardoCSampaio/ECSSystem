@@ -156,5 +156,31 @@
   },
   "contact": {
     "title": "Fale Conosco"
+  },
+  "vacancies": {
+    "title": "Vagas em Aberto",
+    "items": [
+      {
+        "id": "vaga1",
+        "title": "Desenvolvedor(a) Frontend Sênior",
+        "location": "Remoto (Brasil)",
+        "type": "Tempo Integral",
+        "description": "Buscamos um(a) desenvolvedor(a) Frontend experiente em React, Next.js e TypeScript para se juntar à nossa equipe de produtos digitais."
+      },
+      {
+        "id": "vaga2",
+        "title": "Gerente de Projetos de TI",
+        "location": "São Paulo, SP (Híbrido)",
+        "type": "Tempo Integral",
+        "description": "Responsável por planejar, executar e finalizar projetos de software dentro do prazo e orçamento, garantindo a satisfação do cliente."
+      },
+      {
+        "id": "vaga3",
+        "title": "Analista de UX/UI Pleno",
+        "location": "Remoto",
+        "type": "Meio Período",
+        "description": "Criação de interfaces intuitivas e experiências de usuário memoráveis para nossas plataformas web e mobile. Necessário portfólio."
+      }
+    ]
   }
 }

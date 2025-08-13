@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { GalleryVertical, Pencil, FolderKanban, LogOut } from 'lucide-react';
+import { GalleryVertical, Pencil, FolderKanban, LogOut, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -11,6 +11,7 @@ const navItems = [
   { href: '/admin/text', icon: Pencil, label: 'Textos' },
   { href: '/admin/projects', icon: FolderKanban, label: 'Projetos' },
   { href: '/admin/gallery', icon: GalleryVertical, label: 'Galeria' },
+  { href: '/admin/vacancies', icon: Briefcase, label: 'Vagas' },
 ];
 
 export default function AdminLayout({

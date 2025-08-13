@@ -48,9 +48,12 @@ export async function handleSaveContent(newContent: any) {
     revalidatePath('/');
     revalidatePath('/sobre');
     revalidatePath('/projetos');
+    revalidatePath('/trabalhe-conosco');
     revalidatePath('/admin/text');
     revalidatePath('/admin/projects');
     revalidatePath('/admin/gallery');
+    revalidatePath('/admin/vacancies');
+
 
     return { success: true };
   } catch (error) {

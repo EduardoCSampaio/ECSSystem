@@ -1,6 +1,6 @@
 
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminDashboardPage() {
@@ -46,6 +46,17 @@ export default function AdminDashboardPage() {
                  <ArrowRight className="h-5 w-5 text-muted-foreground" />
               </CardTitle>
               <CardDescription>Adicione ou remova fotos das galerias.</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        <Link href="/admin/vacancies">
+          <Card className="hover:border-primary transition-colors">
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                Gerenciar Vagas
+                 <Briefcase className="h-5 w-5 text-muted-foreground" />
+              </CardTitle>
+              <CardDescription>Adicione ou remova vagas de emprego.</CardDescription>
             </CardHeader>
           </Card>
         </Link>

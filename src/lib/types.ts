@@ -13,6 +13,15 @@ export interface Photo {
   hint: string;
 }
 
+export interface Vacancy {
+  id: string;
+  title: string;
+  location: string;
+  type: string; // Ex: "Tempo Integral", "Meio Período"
+  description: string;
+}
+
+
 export interface PortfolioContent {
   home: {
     introduction: {
@@ -51,4 +60,8 @@ export interface PortfolioContent {
   contact: {
     title: string;
   };
+  vacancies: {
+    title: string;
+    items: Vacancy[];
+  }
 }
