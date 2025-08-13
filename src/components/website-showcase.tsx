@@ -10,7 +10,7 @@ interface WebsiteShowcaseProps {
 }
 
 const WebsiteCard = ({ item }: { item: Website }) => (
-  <Card className="flex flex-col overflow-hidden transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
+  <Card className="flex flex-col overflow-hidden transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl bg-card">
     <div className="aspect-video overflow-hidden">
       <Image
         src={item.image}
@@ -38,11 +38,11 @@ const WebsiteCard = ({ item }: { item: Website }) => (
 
 export function WebsiteShowcase({ content }: WebsiteShowcaseProps) {
   return (
-    <section id="websites" className="bg-primary/5 py-16 sm:py-24">
+    <section id="websites" className="py-16 sm:py-24">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="font-headline text-4xl font-bold text-primary">{content.title}</h2>
-          <p className="text-muted-foreground mt-2 text-lg">Uma seleção dos meus melhores projetos web.</p>
+          <h2 className="font-headline text-4xl font-bold text-foreground">{content.title}</h2>
+          <p className="text-muted-foreground mt-2 text-lg">Uma seleção dos nossos melhores projetos.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {content.items.map((item, index) => (

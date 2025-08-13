@@ -54,7 +54,7 @@ export function ContactForm({ content }: ContactFormProps) {
       if (result.success) {
         toast({
           title: 'Mensagem Enviada!',
-          description: 'Obrigado por entrar em contato. Retornarei em breve.',
+          description: 'Obrigado por entrar em contato. Retornaremos em breve.',
         });
         form.reset();
       } else {
@@ -72,12 +72,12 @@ export function ContactForm({ content }: ContactFormProps) {
   }
 
   return (
-    <section id="contact" className="bg-primary/5 py-16 sm:py-24">
+    <section id="contact" className="py-16 sm:py-24">
       <div className="container mx-auto">
-        <Card className="max-w-2xl mx-auto shadow-lg">
+        <Card className="max-w-2xl mx-auto shadow-lg bg-card">
           <CardHeader className="text-center">
-            <CardTitle className="font-headline text-4xl font-bold text-primary">{content.title}</CardTitle>
-            <p className="text-muted-foreground mt-2">Tem uma pergunta ou quer trabalhar comigo? Mande uma mensagem.</p>
+            <CardTitle className="font-headline text-4xl font-bold text-foreground">{content.title}</CardTitle>
+            <p className="text-muted-foreground mt-2">Tem uma pergunta ou quer trabalhar conosco? Mande uma mensagem.</p>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -121,7 +121,7 @@ export function ContactForm({ content }: ContactFormProps) {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" disabled={isSubmitting} className="w-full bg-accent hover:bg-accent/90">
+                <Button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                   {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Enviar Mensagem
                 </Button>

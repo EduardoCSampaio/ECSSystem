@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/sheet';
 import { handleEnhanceText } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
+import Image from 'next/image';
 
 interface AppHeaderProps {
   content: PortfolioContent;
@@ -86,7 +87,10 @@ export function AppHeader({ content, setContent, initialContent }: AppHeaderProp
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
-        <h1 className="text-xl font-headline font-bold text-primary">{content.header.title}</h1>
+        <div className="flex items-center gap-2">
+            <Image src="/logo.png" alt="Logo" width={32} height={32} />
+            <h1 className="text-xl font-headline font-bold text-foreground">{content.header.title}</h1>
+        </div>
         <div className="flex items-center gap-2">
            <Button variant="outline" size="sm" onClick={resetChanges}>
             <History className="mr-2 h-4 w-4" />

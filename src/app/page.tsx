@@ -12,17 +12,17 @@ import { AppFooter } from '@/components/app-footer';
 
 const initialContent: PortfolioContent = {
   header: {
-    title: 'Meu Portfólio',
+    title: 'E&S Business and Software',
   },
   introduction: {
-    name: 'André Silva',
-    profession: 'Desenvolvedor Full-Stack & Fotógrafo',
+    name: 'E&S Business and Software',
+    profession: 'Soluções em Software e Consultoria de Negócios',
     about:
-      'Olá! Sou André, um criador apaixonado por transformar ideias em realidade, seja através de linhas de código ou das lentes de uma câmera. Explore meu trabalho e vamos criar algo incrível juntos.',
-    avatar: 'https://placehold.co/128x128.png',
+      'Olá! Nós somos a E&S, uma empresa apaixonada por transformar ideias em realidade, seja através de linhas de código ou de estratégias de negócio. Explore nosso trabalho e vamos criar algo incrível juntos.',
+    avatar: '/logo.png',
   },
   websites: {
-    title: 'Meus Sites',
+    title: 'Nossos Projetos',
     items: [
       {
         id: 'site1',
@@ -51,7 +51,7 @@ const initialContent: PortfolioContent = {
     ],
   },
   gallery: {
-    title: 'Galeria de Fotos',
+    title: 'Galeria',
     photos: [
       {
         id: 'photo1',

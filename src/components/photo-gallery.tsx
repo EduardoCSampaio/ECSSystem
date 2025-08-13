@@ -7,7 +7,7 @@ interface PhotoGalleryProps {
 }
 
 const PhotoCard = ({ photo }: { photo: Photo }) => (
-  <Card className="overflow-hidden group transition-shadow duration-300 hover:shadow-xl">
+  <Card className="overflow-hidden group transition-shadow duration-300 hover:shadow-xl bg-card">
     <div className="aspect-square overflow-hidden">
       <Image
         src={photo.src}
@@ -23,11 +23,11 @@ const PhotoCard = ({ photo }: { photo: Photo }) => (
 
 export function PhotoGallery({ content }: PhotoGalleryProps) {
   return (
-    <section id="gallery" className="py-16 sm:py-24">
+    <section id="gallery" className="bg-card py-16 sm:py-24">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="font-headline text-4xl font-bold text-primary">{content.title}</h2>
-          <p className="text-muted-foreground mt-2 text-lg">Momentos que capturei através das minhas lentes.</p>
+          <h2 className="font-headline text-4xl font-bold text-foreground">{content.title}</h2>
+          <p className="text-muted-foreground mt-2 text-lg">Uma amostra visual do nosso trabalho.</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
           {content.photos.map((photo, index) => (

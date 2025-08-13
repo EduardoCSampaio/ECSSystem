@@ -3,7 +3,7 @@ export function AppFooter() {
   return (
     <footer className="py-6 border-t">
       <div className="container mx-auto text-center text-muted-foreground">
-        <p>&copy; {currentYear} Meu Portfólio. Todos os direitos reservados.</p>
+        <p>&copy; {currentYear} E&S Business and Software. Todos os direitos reservados.</p>
       </div>
     </footer>
   );
