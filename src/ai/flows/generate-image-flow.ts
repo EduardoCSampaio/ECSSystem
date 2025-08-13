@@ -36,10 +36,10 @@ const generateImageFlow = ai.defineFlow(
   async (input) => {
     const { media } = await ai.generate({
       model: 'googleai/gemini-2.0-flash-preview-image-generation',
-      prompt: `Generate a visually appealing and professional image for a software project portfolio.
-      The image should be abstract or conceptual, representing the following concept: "${input.prompt}".
-      Focus on themes of technology, innovation, and business solutions. Avoid text and human faces.
-      The style should be clean, modern, and suitable for a corporate website.`,
+      prompt: `Create a compelling and professional image for a software project portfolio.
+      The image needs to be a conceptual or abstract representation of the following idea: "${input.prompt}".
+      Think about dynamic visuals, such as data flows, network connections, or innovative architectural designs.
+      The style should be modern, clean, and professional, suitable for a corporate tech website. Avoid including text or human figures.`,
       config: {
         responseModalities: ['TEXT', 'IMAGE'],
       },
