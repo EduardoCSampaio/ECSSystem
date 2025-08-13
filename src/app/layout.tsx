@@ -2,12 +2,15 @@ import type { Metadata } from 'next';
 import { Toaster } from "@/components/ui/toaster"
 import './globals.css';
 import { Inter } from 'next/font/google';
+import { AppHeader } from '@/components/app-header';
+import { AppFooter } from '@/components/app-footer';
+
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Meu Portfólio',
-  description: 'Portfólio pessoal criado com Next.js e Firebase.',
+  title: 'E&S Business and Software',
+  description: 'Portfólio corporativo da E&S Business and Software',
 };
 
 export default function RootLayout({
@@ -18,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="dark">
       <body className={`${inter.className} antialiased`}>
-        {children}
+        <AppHeader />
+        <main className="flex-1">{children}</main>
+        <AppFooter />
         <Toaster />
       </body>
     </html>

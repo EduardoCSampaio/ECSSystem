@@ -14,7 +14,7 @@ export interface Photo {
 }
 
 export interface PortfolioContent {
-  header: {
+  header?: {
     title: string;
   };
   introduction: {

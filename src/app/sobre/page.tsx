@@ -1,0 +1,64 @@
+'use client';
+
+import { PersonalIntroduction } from '@/components/personal-introduction';
+import { PhotoGallery } from '@/components/photo-gallery';
+
+const aboutContent = {
+  introduction: {
+    name: 'Sobre a E&S',
+    profession: 'Inovação em Software e Estratégia de Negócios',
+    about:
+      'Fundada com a missão de transformar desafios complexos em soluções digitais elegantes e eficientes, a E&S Business and Software é sua parceira estratégica no caminho para o sucesso. Combinamos expertise técnica com uma visão de negócios apurada para entregar resultados que não apenas atendem, mas superam as expectativas.',
+    avatar: '/logo.png',
+  },
+  gallery: {
+    title: 'Nossa Cultura e Espaço',
+    photos: [
+      {
+        id: 'photo1',
+        src: 'https://placehold.co/600x400.png',
+        alt: 'Equipe em colaboração',
+        hint: 'team meeting',
+      },
+      {
+        id: 'photo2',
+        src: 'https://placehold.co/600x400.png',
+        alt: 'Escritório moderno',
+        hint: 'modern office',
+      },
+      {
+        id: 'photo3',
+        src: 'https://placehold.co/600x400.png',
+        alt: 'Evento da empresa',
+        hint: 'corporate event',
+      },
+       {
+        id: 'photo4',
+        src: 'https://placehold.co/600x400.png',
+        alt: 'Sessão de brainstorming',
+        hint: 'whiteboard brainstorming',
+      },
+      {
+        id: 'photo5',
+        src: 'https://placehold.co/600x400.png',
+        alt: 'Detalhe da arquitetura do escritório',
+        hint: 'office architecture',
+      },
+      {
+        id: 'photo6',
+        src: 'https://placehold.co/600x400.png',
+        alt: 'Momentos de descontração da equipe',
+        hint: 'team coffee',
+      },
+    ],
+  },
+};
+
+export default function SobrePage() {
+  return (
+    <div>
+      <PersonalIntroduction content={aboutContent.introduction} />
+      <PhotoGallery content={aboutContent.gallery} />
+    </div>
+  );
+}

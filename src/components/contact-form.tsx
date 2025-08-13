@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { handleContactForm } from '@/app/actions';
 
@@ -72,12 +72,12 @@ export function ContactForm({ content }: ContactFormProps) {
   }
 
   return (
-    <section id="contact" className="py-16 sm:py-24">
+    <section id="contact" className="py-16 sm:py-24 bg-background">
       <div className="container mx-auto">
-        <Card className="max-w-2xl mx-auto shadow-lg bg-card">
+        <Card className="max-w-2xl mx-auto shadow-lg bg-card border-border/50">
           <CardHeader className="text-center">
             <CardTitle className="text-4xl font-bold text-foreground">{content.title}</CardTitle>
-            <p className="text-muted-foreground mt-2">Pronto para iniciar seu projeto? Entre em contato conosco.</p>
+            <CardDescription className="text-muted-foreground mt-2">Pronto para iniciar seu projeto? Entre em contato conosco.</CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
