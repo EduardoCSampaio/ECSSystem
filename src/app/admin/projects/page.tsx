@@ -317,13 +317,14 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave }: ProjectDialogProp
         const prompt = `${title} - ${description}`;
         const result = await handleGenerateImage({ prompt });
         if (result.error) {
-            throw new Error(result.error);
+            toast({ variant: 'destructive', title: 'Erro ao Gerar Imagem', description: 'Não foi possível conectar ao serviço de IA. Tente novamente.' });
+            return;
         }
         setImage(result.dataUri);
         toast({ title: 'Imagem Gerada!', description: 'Uma nova imagem foi gerada pela IA.'});
     } catch (error) {
         console.error(error);
-        toast({ variant: 'destructive', title: 'Erro ao Gerar Imagem', description: 'Não foi possível conectar ao serviço de IA.' });
+        toast({ variant: 'destructive', title: 'Erro ao Gerar Imagem', description: 'Ocorreu um erro inesperado.' });
     } finally {
         setIsGenerating(false);
     }
