@@ -29,12 +29,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { PlusCircle, Edit, Trash2, Loader2 } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Loader2, Wand2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
 import type { Website } from '@/lib/types';
 import Image from 'next/image';
-import { handleSaveContent, getContent } from '@/app/actions';
+import { handleSaveContent, getContent, handleGenerateImage } from '@/app/actions';
 
 export default function AdminProjectsPage() {
   const { toast } = useToast();
@@ -275,10 +275,11 @@ interface ProjectDialogProps {
 }
 
 function ProjectDialog({ isOpen, setIsOpen, project, onSave }: ProjectDialogProps) {
+  const { toast } = useToast();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(''); // Armazenará a imagem como data URI
-  const [isSaving, setIsSaving] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -290,7 +291,7 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave }: ProjectDialogProp
         // Limpa o formulário para um novo projeto
         setTitle('');
         setDescription('');
-        setImage('');
+        setImage('https://placehold.co/600x400.png');
       }
     }
   }, [project, isOpen]);
@@ -305,11 +306,33 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave }: ProjectDialogProp
       reader.readAsDataURL(file);
     }
   };
+
+  const handleGenerateAiImage = async () => {
+    if (!title) {
+        toast({ variant: 'destructive', title: 'Título é necessário', description: 'Por favor, insira um título para gerar a imagem.'});
+        return;
+    }
+    setIsGenerating(true);
+    try {
+        const prompt = `${title} - ${description}`;
+        const result = await handleGenerateImage({ prompt });
+        if (result.error) {
+            throw new Error(result.error);
+        }
+        setImage(result.dataUri);
+        toast({ title: 'Imagem Gerada!', description: 'Uma nova imagem foi gerada pela IA.'});
+    } catch (error) {
+        console.error(error);
+        toast({ variant: 'destructive', title: 'Erro ao Gerar Imagem', description: 'Não foi possível conectar ao serviço de IA.' });
+    } finally {
+        setIsGenerating(false);
+    }
+  };
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!image) {
-      alert('Por favor, faça o upload de uma imagem.');
+      toast({ variant: 'destructive', title: 'Imagem é necessária', description: 'Por favor, faça o upload de uma imagem ou gere uma com IA.'});
       return;
     }
     // Apenas chama onSave para atualizar o estado local. A persistência é feita em "handleSaveChanges"
@@ -360,14 +383,20 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave }: ProjectDialogProp
               <Label htmlFor="image-upload" className="text-right pt-2">
                 Imagem
               </Label>
-              <div className="col-span-3 space-y-2">
-                <Input
-                  id="image-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="col-span-3"
-                />
+              <div className="col-span-3 space-y-4">
+                <div className="space-y-2">
+                    <Input
+                    id="image-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="col-span-3"
+                    />
+                    <Button type="button" variant="outline" onClick={handleGenerateAiImage} disabled={isGenerating} className="w-full">
+                        {isGenerating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wand2 className="mr-2 h-4 w-4" />}
+                        Gerar com IA
+                    </Button>
+                </div>
                 {image && (
                   <div className="mt-2">
                     <p className="text-sm text-muted-foreground mb-2">Pré-visualização:</p>
@@ -389,8 +418,8 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave }: ProjectDialogProp
                 Cancelar
               </Button>
             </DialogClose>
-            <Button type="submit" disabled={isSaving}>
-              {isSaving ? 'Salvando...' : 'Salvar no Rascunho'}
+            <Button type="submit" disabled={isGenerating}>
+              Salvar no Rascunho
             </Button>
           </DialogFooter>
         </form>
@@ -398,5 +427,3 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave }: ProjectDialogProp
     </Dialog>
   );
 }
-
-    

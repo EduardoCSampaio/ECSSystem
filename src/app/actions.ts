@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { enhanceText, type EnhanceTextInput } from '@/ai/flows/text-enhancement';
+import { generateImage, type GenerateImageInput } from '@/ai/flows/generate-image-flow';
 import fs from 'fs/promises';
 import path from 'path';
 import { revalidatePath } from 'next/cache';
@@ -48,6 +49,19 @@ export async function handleEnhanceText(input: EnhanceTextInput) {
     console.error('Error enhancing text:', error);
     // In a real application, you might want to return a more user-friendly error
     return { error: 'Failed to enhance text.' };
+  }
+}
+
+export async function handleGenerateImage(input: GenerateImageInput) {
+  try {
+    const output = await generateImage(input);
+    if (!output || !output.dataUri) {
+      throw new Error('Invalid response from AI image generation service.');
+    }
+    return output;
+  } catch (error) {
+    console.error('Error generating image:', error);
+    return { error: 'Failed to generate image.' };
   }
 }
 
