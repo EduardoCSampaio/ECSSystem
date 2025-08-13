@@ -5,10 +5,10 @@ import { PhotoGallery } from '@/components/photo-gallery';
 
 const aboutContent = {
   introduction: {
-    name: 'Sobre a E&S',
+    name: 'Sobre a ECS',
     profession: 'Inovação em Software e Estratégia de Negócios',
     about:
-      'Fundada com a missão de transformar desafios complexos em soluções digitais elegantes e eficientes, a E&S Business and Software é sua parceira estratégica no caminho para o sucesso. Combinamos expertise técnica com uma visão de negócios apurada para entregar resultados que não apenas atendem, mas superam as expectativas.',
+      'Fundada com a missão de transformar desafios complexos em soluções digitais elegantes e eficientes, a ECS Business and Software é sua parceira estratégica no caminho para o sucesso. Combinamos expertise técnica com uma visão de negócios apurada para entregar resultados que não apenas atendem, mas superam as expectativas.',
     avatar: '/logo.png',
   },
   gallery: {

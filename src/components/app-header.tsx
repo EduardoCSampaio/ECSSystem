@@ -26,8 +26,8 @@ export function AppHeader() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <Image src="/logo.png" alt="E&S Logo" width={40} height={40} className="rounded-md" />
-          <span className="text-xl font-bold text-foreground">E&S</span>
+          <Image src="/logo.png" alt="ECS Logo" width={40} height={40} className="rounded-md" />
+          <span className="text-xl font-bold text-foreground">ECS</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -56,8 +56,8 @@ export function AppHeader() {
             <SheetContent side="right" className="w-[240px] bg-background">
                <div className="flex flex-col gap-6 p-6">
                  <Link href="/" className="flex items-center gap-3 mb-4" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Image src="/logo.png" alt="E&S Logo" width={32} height={32} className="rounded-md" />
-                    <span className="font-bold text-foreground">E&S Business & Software</span>
+                    <Image src="/logo.png" alt="ECS Logo" width={32} height={32} className="rounded-md" />
+                    <span className="font-bold text-foreground">ECS Business & Software</span>
                  </Link>
                 {navLinks.map((link) => (
                   <Link

@@ -9,8 +9,8 @@ import { AppFooter } from '@/components/app-footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'E&S Business and Software',
-  description: 'Portfólio corporativo da E&S Business and Software',
+  title: 'ECS Business and Software',
+  description: 'Portfólio corporativo da ECS Business and Software',
 };
 
 export default function RootLayout({

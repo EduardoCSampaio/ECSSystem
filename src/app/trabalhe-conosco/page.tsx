@@ -27,7 +27,7 @@ export default function TrabalheConoscoPage() {
         Faça Parte da Nossa Equipe
       </h1>
       <p className="max-w-3xl mx-auto text-lg text-muted-foreground mb-12">
-        Na E&S, buscamos pessoas apaixonadas por tecnologia e inovação para nos ajudar a construir o futuro. Se você é criativo, proativo e gosta de desafios, aqui é o seu lugar.
+        Na ECS, buscamos pessoas apaixonadas por tecnologia e inovação para nos ajudar a construir o futuro. Se você é criativo, proativo e gosta de desafios, aqui é o seu lugar.
       </p>
       
       <div className="grid md:grid-cols-3 gap-8 mb-16">
@@ -50,7 +50,7 @@ export default function TrabalheConoscoPage() {
           Confira nossas oportunidades e envie seu currículo. Estamos ansiosos para conhecer você!
         </p>
         <Button size="lg" asChild>
-          <a href="mailto:carreiras@es-software.com?subject=Vaga de [Nome da Vaga]">
+          <a href="mailto:carreiras@ecs-software.com?subject=Vaga de [Nome da Vaga]">
             Ver Vagas e Enviar Currículo
           </a>
         </Button>

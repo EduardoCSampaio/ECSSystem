@@ -6,10 +6,10 @@ import { PhotoGallery } from '@/components/photo-gallery';
 
 const homeContent = {
   introduction: {
-    name: 'E&S Business and Software',
+    name: 'ECS Business and Software',
     profession: 'Inovação em Software e Estratégia de Negócios',
     about:
-      'Na E&S, unimos tecnologia de ponta e consultoria especializada para impulsionar o crescimento do seu negócio. Transformamos ideias em soluções digitais robustas e estratégias de mercado eficazes.',
+      'Na ECS, unimos tecnologia de ponta e consultoria especializada para impulsionar o crescimento do seu negócio. Transformamos ideias em soluções digitais robustas e estratégias de mercado eficazes.',
     avatar: '/logo.png',
   },
   websites: {
