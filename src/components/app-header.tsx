@@ -44,36 +44,34 @@ export function AppHeader() {
           ))}
         </nav>
 
-        <div className="md:hidden">
-          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Abrir menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[240px] bg-background">
-               <div className="flex flex-col gap-6 p-6">
-                 <Link href="/" className="flex items-center gap-3 mb-4" onClick={() => setIsMobileMenuOpen(false)}>
-                    <Image src="/logo.png" alt="ECS Logo" width={80} height={80} className="rounded-md" />
-                 </Link>
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={cn(
-                      'text-base font-medium transition-colors hover:text-primary',
-                      pathname === link.href ? 'text-primary' : 'text-foreground'
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-               </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="md:hidden">
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Abrir menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[240px] bg-background md:hidden">
+             <div className="flex flex-col gap-6 p-6">
+               <Link href="/" className="flex items-center gap-3 mb-4" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Image src="/logo.png" alt="ECS Logo" width={80} height={80} className="rounded-md" />
+               </Link>
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={cn(
+                    'text-base font-medium transition-colors hover:text-primary',
+                    pathname === link.href ? 'text-primary' : 'text-foreground'
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
+             </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   );
