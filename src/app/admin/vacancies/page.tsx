@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -23,25 +22,36 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
   DialogClose,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { PlusCircle, Edit, Trash2, Loader2, Briefcase } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Loader2, Briefcase, Skeleton } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import content from '@/data/content.json';
 import type { Vacancy } from '@/lib/types';
-import { handleSaveContent } from '@/app/actions';
+import { handleSaveContent, getContent } from '@/app/actions';
 
 export default function AdminVacanciesPage() {
   const { toast } = useToast();
-  const [vacancies, setVacancies] = useState<Vacancy[]>(content.vacancies.items);
+  const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [editingVacancy, setEditingVacancy] = useState<Vacancy | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadContent() {
+      setIsLoading(true);
+      const content = await getContent();
+      if (content) {
+        setVacancies(content.vacancies.items);
+      }
+      setIsLoading(false);
+    }
+    loadContent();
+  }, []);
 
   const handleSaveVacancy = (newVacancy: Vacancy) => {
     let updatedVacancies;
@@ -63,7 +73,7 @@ export default function AdminVacanciesPage() {
 
   const handleDelete = (idToDelete: string) => {
     if (confirm('Tem certeza que deseja excluir esta vaga?')) {
-      setVacancies((currentVacancies) => 
+      setVacancies((currentVacancies) =>
         currentVacancies.filter((vacancy) => vacancy.id !== idToDelete)
       );
       toast({
@@ -77,9 +87,7 @@ export default function AdminVacanciesPage() {
     setIsSaving(true);
     
     const newContent = {
-      ...content,
       vacancies: {
-        ...content.vacancies,
         items: vacancies,
       },
     };
@@ -114,6 +122,44 @@ export default function AdminVacanciesPage() {
     setEditingVacancy(null);
     setIsDialogOpen(true);
   };
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto py-10">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-8 w-1/3" />
+            <Skeleton className="h-4 w-2/3" />
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Título</TableHead>
+                  <TableHead>Localização</TableHead>
+                  <TableHead>Tipo</TableHead>
+                  <TableHead className="text-right">Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[...Array(3)].map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                    <TableCell className="text-right space-x-2">
+                       <Skeleton className="h-8 w-8 inline-block" />
+                       <Skeleton className="h-8 w-8 inline-block" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-10">

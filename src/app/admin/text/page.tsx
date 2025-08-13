@@ -12,43 +12,55 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Wand2, Loader2 } from 'lucide-react';
+import { Wand2, Loader2, Skeleton } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import content from '@/data/content.json';
-import { handleEnhanceText, handleSaveContent } from '@/app/actions';
+import { handleEnhanceText, handleSaveContent, getContent } from '@/app/actions';
 
 export default function AdminTextPage() {
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Estados para os textos da página "Início"
-  const [homeProfession, setHomeProfession] = useState(content.home.introduction.profession);
-  const [homeName, setHomeName] = useState(content.home.introduction.name);
-  const [homeAbout, setHomeAbout] = useState(content.home.introduction.about);
+  const [homeProfession, setHomeProfession] = useState('');
+  const [homeName, setHomeName] = useState('');
+  const [homeAbout, setHomeAbout] = useState('');
 
   // Estados para os textos da página "Sobre"
-  const [aboutProfession, setAboutProfession] = useState(content.about.introduction.profession);
-  const [aboutName, setAboutName] = useState(content.about.introduction.name);
-  const [aboutAbout, setAboutAbout] = useState(content.about.introduction.about);
+  const [aboutProfession, setAboutProfession] = useState('');
+  const [aboutName, setAboutName] = useState('');
+  const [aboutAbout, setAboutAbout] = useState('');
+
+  useEffect(() => {
+    async function loadContent() {
+      setIsLoading(true);
+      const content = await getContent();
+      if (content) {
+        setHomeProfession(content.home.introduction.profession);
+        setHomeName(content.home.introduction.name);
+        setHomeAbout(content.home.introduction.about);
+        setAboutProfession(content.about.introduction.profession);
+        setAboutName(content.about.introduction.name);
+        setAboutAbout(content.about.introduction.about);
+      }
+      setIsLoading(false);
+    }
+    loadContent();
+  }, []);
 
   const handleSave = async () => {
     setIsSaving(true);
     const newContent = {
-      ...content,
       home: {
-        ...content.home,
         introduction: {
-          ...content.home.introduction,
           profession: homeProfession,
           name: homeName,
           about: homeAbout,
         },
       },
       about: {
-        ...content.about,
         introduction: {
-          ...content.about.introduction,
           profession: aboutProfession,
           name: aboutName,
           about: aboutAbout,
@@ -121,6 +133,36 @@ export default function AdminTextPage() {
         setIsEnhancing(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto py-10">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-8 w-1/3" />
+            <Skeleton className="h-4 w-2/3" />
+          </CardHeader>
+          <CardContent className="space-y-8">
+            <div className="space-y-4 p-6 border rounded-lg">
+              <Skeleton className="h-6 w-1/4" />
+              <div className="grid gap-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+              <div className="grid gap-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+              <div className="grid gap-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-24 w-full" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-10">

@@ -22,26 +22,37 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
   DialogClose,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { PlusCircle, Edit, Trash2, Loader2 } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Loader2, Skeleton } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import content from '@/data/content.json';
 import type { Website } from '@/lib/types';
 import Image from 'next/image';
-import { handleSaveContent } from '@/app/actions';
+import { handleSaveContent, getContent } from '@/app/actions';
 
 export default function AdminProjectsPage() {
   const { toast } = useToast();
-  const [projects, setProjects] = useState<Website[]>(content.projects.websites.items);
+  const [projects, setProjects] = useState<Website[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [editingProject, setEditingProject] = useState<Website | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadContent() {
+      setIsLoading(true);
+      const content = await getContent();
+      if (content) {
+        setProjects(content.projects.websites.items);
+      }
+      setIsLoading(false);
+    }
+    loadContent();
+  }, []);
 
   // Função para salvar um único projeto (adicionar ou editar) no estado local
   const handleSaveProject = (newProject: Website) => {
@@ -80,19 +91,14 @@ export default function AdminProjectsPage() {
     
     // Estrutura do novo conteúdo a ser salvo
     const newContent = {
-      ...content,
       projects: {
-        ...content.projects,
         websites: {
-          ...content.projects.websites,
           items: projects,
         },
       },
       // Sincroniza os 3 primeiros projetos com a página inicial
       home: {
-        ...content.home,
         websites: {
-          ...content.home.websites,
           items: projects.slice(0, 3),
         }
       }
@@ -128,6 +134,44 @@ export default function AdminProjectsPage() {
     setEditingProject(null);
     setIsDialogOpen(true);
   };
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto py-10">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-8 w-1/3" />
+            <Skeleton className="h-4 w-2/3" />
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Imagem</TableHead>
+                  <TableHead>Título</TableHead>
+                  <TableHead>Descrição</TableHead>
+                  <TableHead className="text-right">Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[...Array(3)].map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell><Skeleton className="h-[60px] w-[100px] rounded-md" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-64" /></TableCell>
+                    <TableCell className="text-right space-x-2">
+                       <Skeleton className="h-8 w-8 inline-block" />
+                       <Skeleton className="h-8 w-8 inline-block" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-10">

@@ -15,6 +15,18 @@ const contactFormSchema = z.object({
 // Caminho para o arquivo de conteúdo
 const contentFilePath = path.join(process.cwd(), 'src', 'data', 'content.json');
 
+// Nova função para ler o conteúdo do arquivo
+export async function getContent() {
+  try {
+    const fileContent = await fs.readFile(contentFilePath, 'utf8');
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error('Error reading content file:', error);
+    // Retorna uma estrutura padrão em caso de erro para evitar que o site quebre
+    return null;
+  }
+}
+
 export async function handleContactForm(data: z.infer<typeof contactFormSchema>) {
   // In a real application, you would process the form data here,
   // e.g., send an email, save to a database, etc.
@@ -41,8 +53,9 @@ export async function handleEnhanceText(input: EnhanceTextInput) {
 
 export async function handleSaveContent(newContent: any) {
   try {
+    const currentContent = await getContent();
     // Escreve o conteúdo atualizado no arquivo JSON
-    await fs.writeFile(contentFilePath, JSON.stringify(newContent, null, 2), 'utf8');
+    await fs.writeFile(contentFilePath, JSON.stringify({ ...currentContent, ...newContent}, null, 2), 'utf8');
     
     // Invalida o cache das páginas para que elas sejam recarregadas com o novo conteúdo
     revalidatePath('/');

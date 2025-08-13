@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Building, Users, BrainCircuit, MapPin, Clock } from 'lucide-react';
@@ -11,12 +10,12 @@ import {
   CardFooter
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { AppHeader } from '@/components/app-header';
 import { AppFooter } from '@/components/app-footer';
-import content from '@/data/content.json';
-import type { Vacancy } from '@/lib/types';
-
+import type { Vacancy, PortfolioContent } from '@/lib/types';
+import { useState, useEffect } from 'react';
+import { getContent } from '@/app/actions';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const features = [
   {
@@ -59,6 +58,34 @@ const VacancyCard = ({ vacancy }: { vacancy: Vacancy }) => (
 );
 
 export default function TrabalheConoscoPage() {
+  const [content, setContent] = useState<PortfolioContent | null>(null);
+
+  useEffect(() => {
+    async function loadContent() {
+      const pageContent = await getContent();
+      setContent(pageContent);
+    }
+    loadContent();
+  }, []);
+
+  if (!content) {
+    return (
+      <>
+        <AppHeader />
+        <main className="container mx-auto py-16 sm:py-24">
+          <div className="text-center">
+            <Skeleton className="h-12 w-3/4 mx-auto mb-4" />
+            <Skeleton className="h-6 w-1/2 mx-auto" />
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+            {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-64 w-full" />)}
+          </div>
+        </main>
+        <AppFooter />
+      </>
+    )
+  }
+
   const { vacancies } = content;
 
   return (

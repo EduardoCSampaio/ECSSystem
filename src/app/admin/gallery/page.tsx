@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import {
   Card,
@@ -13,16 +13,29 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { PlusCircle, Trash2, Loader2 } from 'lucide-react';
-import content from '@/data/content.json';
+import { PlusCircle, Trash2, Loader2, Skeleton } from 'lucide-react';
 import type { Photo } from '@/lib/types';
-import { handleSaveContent } from '@/app/actions';
+import { handleSaveContent, getContent } from '@/app/actions';
 
 export default function AdminGalleryPage() {
   const { toast } = useToast();
-  const [homePhotos, setHomePhotos] = useState<Photo[]>(content.home.gallery.photos);
-  const [aboutPhotos, setAboutPhotos] = useState<Photo[]>(content.about.gallery.photos);
+  const [homePhotos, setHomePhotos] = useState<Photo[]>([]);
+  const [aboutPhotos, setAboutPhotos] = useState<Photo[]>([]);
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadContent() {
+      setIsLoading(true);
+      const content = await getContent();
+      if (content) {
+        setHomePhotos(content.home.gallery.photos);
+        setAboutPhotos(content.about.gallery.photos);
+      }
+      setIsLoading(false);
+    }
+    loadContent();
+  }, []);
 
   const handleAddPhoto = (section: 'home' | 'about', event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -70,18 +83,13 @@ export default function AdminGalleryPage() {
     
     // Cria a nova estrutura do conteúdo com as fotos atualizadas
     const newContent = {
-      ...content,
       home: {
-        ...content.home,
         gallery: {
-          ...content.home.gallery,
           photos: homePhotos,
         },
       },
       about: {
-        ...content.about,
         gallery: {
-          ...content.about.gallery,
           photos: aboutPhotos,
         },
       },
@@ -108,6 +116,24 @@ export default function AdminGalleryPage() {
       setIsSaving(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto py-10 space-y-8">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-8 w-1/3" />
+            <Skeleton className="h-4 w-2/3" />
+          </CardHeader>
+          <CardContent>
+             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {[...Array(5)].map((_, i) => <Skeleton key={i} className="rounded-md w-full aspect-[4/3]" />)}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-10 space-y-8">
