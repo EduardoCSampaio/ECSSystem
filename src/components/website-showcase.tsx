@@ -10,24 +10,24 @@ interface WebsiteShowcaseProps {
 }
 
 const WebsiteCard = ({ item }: { item: Website }) => (
-  <Card className="flex flex-col overflow-hidden transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl bg-secondary/30">
+  <Card className="flex flex-col overflow-hidden transition-shadow duration-300 ease-in-out hover:shadow-2xl bg-card border-border/60 group">
     <div className="aspect-video overflow-hidden">
       <Image
         src={item.image}
         alt={item.title}
         width={600}
         height={400}
-        className="object-cover w-full h-full transition-transform duration-300 ease-in-out hover:scale-105"
+        className="object-cover w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105"
         data-ai-hint="website screenshot"
       />
     </div>
     <CardHeader>
-      <CardTitle className="text-xl">{item.title}</CardTitle>
-      <CardDescription className="h-24">{item.description}</CardDescription>
+      <CardTitle className="text-xl text-primary">{item.title}</CardTitle>
+      <CardDescription className="h-24 text-muted-foreground">{item.description}</CardDescription>
     </CardHeader>
     {item.link !== '#' && (
       <CardFooter className="mt-auto">
-        <Button asChild className="w-full bg-primary/90 hover:bg-primary">
+        <Button asChild variant="secondary" className="w-full">
           <Link href={item.link}>
             Ver Case Study
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -43,8 +43,8 @@ export function WebsiteShowcase({ content }: WebsiteShowcaseProps) {
     <section id="websites" className="py-16 sm:py-24 bg-background">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-foreground">{content.title}</h2>
-          <p className="text-muted-foreground mt-2 text-lg max-w-2xl mx-auto">Conheça alguns dos desafios que transformamos em sucesso para nossos clientes.</p>
+          <h2 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">{content.title}</h2>
+          <p className="mt-4 text-lg leading-8 text-muted-foreground max-w-2xl mx-auto">Conheça alguns dos desafios que transformamos em sucesso para nossos clientes.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {content.items.map((item, index) => (
