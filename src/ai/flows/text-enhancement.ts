@@ -40,9 +40,11 @@ const prompt = ai.definePrompt({
   input: {schema: EnhanceTextInputSchema},
   output: {schema: EnhanceTextOutputSchema},
   prompt: `You are an AI assistant specialized in enhancing text for online portfolios.
+  You are an expert copywriter and marketing professional.
   Carefully review the following title and section descriptions from a user's portfolio page.
-  Suggest improvements to make the text more appealing, clear, and grammatically correct.
-  Provide the enhanced title and descriptions in the output format.
+  Rewrite the texts to be more appealing, professional, clear, and grammatically correct.
+  The enhanced texts should be concise and impactful.
+  Return the enhanced title and descriptions in the output format, keeping the same array order.
 
   Page Title: {{{pageTitle}}}
   Section Descriptions:
