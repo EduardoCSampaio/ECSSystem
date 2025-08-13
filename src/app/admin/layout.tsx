@@ -22,8 +22,10 @@ export default function AdminLayout({
   const router = useRouter();
 
   const handleLogout = async () => {
+    // Faz a requisição para a API de logout
     await fetch('/api/logout', { method: 'POST' });
-    router.push('/');
+    // Força o redirecionamento e o recarregamento completo da página
+    window.location.href = '/';
   };
 
   return (
