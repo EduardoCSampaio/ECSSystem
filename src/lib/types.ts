@@ -14,22 +14,39 @@ export interface Photo {
 }
 
 export interface PortfolioContent {
-  header?: {
-    title: string;
+  home: {
+    introduction: {
+      name: string;
+      profession: string;
+      about: string;
+      avatar: string;
+    };
+    websites: {
+      title: string;
+      items: Website[];
+    };
+    gallery: {
+      title: string;
+      photos: Photo[];
+    };
   };
-  introduction: {
-    name: string;
-    profession: string;
-    about: string;
-    avatar: string;
+  projects: {
+    websites: {
+      title: string;
+      items: Website[];
+    };
   };
-  websites: {
-    title: string;
-    items: Website[];
-  };
-  gallery: {
-    title: string;
-    photos: Photo[];
+  about: {
+    introduction: {
+      name: string;
+      profession: string;
+      about: string;
+      avatar: string;
+    };
+    gallery: {
+      title: string;
+      photos: Photo[];
+    };
   };
   contact: {
     title: string;

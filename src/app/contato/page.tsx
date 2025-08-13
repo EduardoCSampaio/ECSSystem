@@ -1,17 +1,13 @@
 'use client';
 
 import { ContactForm } from '@/components/contact-form';
+import content from '@/data/content.json';
 
-const contactContent = {
-  contact: {
-    title: 'Fale Conosco',
-  },
-};
 
 export default function ContatoPage() {
   return (
     <div>
-      <ContactForm content={contactContent.contact} />
+      <ContactForm content={content.contact} />
     </div>
   );
 }
