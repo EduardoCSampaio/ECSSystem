@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -197,24 +197,40 @@ interface ProjectDialogProps {
 function ProjectDialog({ isOpen, setIsOpen, project, onSave, isSaving }: ProjectDialogProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(''); // Armazenará a imagem como data URI
 
-  // Popula o formulário quando o projeto para edição é definido
-  useState(() => {
-    if (project) {
-      setTitle(project.title);
-      setDescription(project.description);
-      setImage(project.image);
-    } else {
-      // Limpa o formulário para um novo projeto
-      setTitle('');
-      setDescription('');
-      setImage('');
+  useEffect(() => {
+    if (isOpen) {
+      if (project) {
+        setTitle(project.title);
+        setDescription(project.description);
+        setImage(project.image);
+      } else {
+        // Limpa o formulário para um novo projeto
+        setTitle('');
+        setDescription('');
+        setImage('');
+      }
     }
-  });
+  }, [project, isOpen]);
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!image) {
+      alert('Por favor, faça o upload de uma imagem.');
+      return;
+    }
     onSave({
       id: project?.id || '', // ID será definido na função onSave se for novo
       title,
@@ -258,17 +274,31 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave, isSaving }: Project
                 required
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="image" className="text-right">
-                URL da Imagem
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label htmlFor="image-upload" className="text-right pt-2">
+                Imagem
               </Label>
-              <Input
-                id="image"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                className="col-span-3"
-                required
-              />
+              <div className="col-span-3 space-y-2">
+                <Input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="col-span-3"
+                />
+                {image && (
+                  <div className="mt-2">
+                    <p className="text-sm text-muted-foreground mb-2">Pré-visualização:</p>
+                    <Image
+                      src={image}
+                      alt="Pré-visualização da imagem"
+                      width={200}
+                      height={120}
+                      className="rounded-md object-cover"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <DialogFooter>
