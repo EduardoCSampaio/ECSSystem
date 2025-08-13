@@ -61,10 +61,11 @@ export default function AdminVacanciesPage() {
     setEditingVacancy(null);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (idToDelete: string) => {
     if (confirm('Tem certeza que deseja excluir esta vaga?')) {
-      const updatedVacancies = vacancies.filter((v) => v.id !== id);
-      setVacancies(updatedVacancies);
+      setVacancies((currentVacancies) => 
+        currentVacancies.filter((vacancy) => vacancy.id !== idToDelete)
+      );
       toast({
         title: 'Vaga Removida!',
         description: 'A vaga foi removida da lista. Clique em "Salvar Alterações" para confirmar.',
