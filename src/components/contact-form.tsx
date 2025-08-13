@@ -76,8 +76,8 @@ export function ContactForm({ content }: ContactFormProps) {
       <div className="container mx-auto">
         <Card className="max-w-2xl mx-auto shadow-lg bg-card">
           <CardHeader className="text-center">
-            <CardTitle className="font-headline text-4xl font-bold text-foreground">{content.title}</CardTitle>
-            <p className="text-muted-foreground mt-2">Tem uma pergunta ou quer trabalhar conosco? Mande uma mensagem.</p>
+            <CardTitle className="text-4xl font-bold text-foreground">{content.title}</CardTitle>
+            <p className="text-muted-foreground mt-2">Pronto para iniciar seu projeto? Entre em contato conosco.</p>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -87,9 +87,9 @@ export function ContactForm({ content }: ContactFormProps) {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nome</FormLabel>
+                      <FormLabel>Nome Completo</FormLabel>
                       <FormControl>
-                        <Input placeholder="Seu nome completo" {...field} />
+                        <Input placeholder="Seu nome" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -100,9 +100,9 @@ export function ContactForm({ content }: ContactFormProps) {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email Corporativo</FormLabel>
                       <FormControl>
-                        <Input placeholder="seu.email@exemplo.com" {...field} />
+                        <Input placeholder="seu.email@empresa.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -113,17 +113,17 @@ export function ContactForm({ content }: ContactFormProps) {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Mensagem</FormLabel>
+                      <FormLabel>Sua Mensagem</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Digite sua mensagem aqui..." className="min-h-[120px]" {...field} />
+                        <Textarea placeholder="Descreva sua necessidade ou projeto..." className="min-h-[120px]" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Button type="submit" disabled={isSubmitting} className="w-full">
                   {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Enviar Mensagem
+                  Enviar Solicitação
                 </Button>
               </form>
             </Form>

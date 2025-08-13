@@ -16,83 +16,83 @@ const initialContent: PortfolioContent = {
   },
   introduction: {
     name: 'E&S Business and Software',
-    profession: 'Soluções em Software e Consultoria de Negócios',
+    profession: 'Inovação em Software e Estratégia de Negócios',
     about:
-      'Olá! Nós somos a E&S, uma empresa apaixonada por transformar ideias em realidade, seja através de linhas de código ou de estratégias de negócio. Explore nosso trabalho e vamos criar algo incrível juntos.',
+      'Na E&S, unimos tecnologia de ponta e consultoria especializada para impulsionar o crescimento do seu negócio. Transformamos ideias em soluções digitais robustas e estratégias de mercado eficazes.',
     avatar: '/logo.png',
   },
   websites: {
-    title: 'Nossos Projetos',
+    title: 'Nossos Projetos de Destaque',
     items: [
       {
         id: 'site1',
-        title: 'E-commerce de Moda',
+        title: 'Plataforma E-commerce Enterprise',
         description:
-          'Uma plataforma de e-commerce moderna e responsiva construída com Next.js e Shopify, focada na experiência do usuário.',
+          'Solução de e-commerce escalável com integração a múltiplos sistemas de ERP e CRM, otimizada para alta performance e conversão.',
         link: '#',
         image: 'https://placehold.co/600x400.png',
       },
       {
         id: 'site2',
-        title: 'Blog de Viagens',
+        title: 'Sistema de Gestão (SaaS)',
         description:
-          'Um blog pessoal para compartilhar histórias e fotos de viagens, com um design limpo e focado em conteúdo.',
+          'Desenvolvimento de uma plataforma SaaS para gestão de processos internos, resultando em um aumento de 30% na eficiência operacional.',
         link: '#',
         image: 'https://placehold.co/600x400.png',
       },
       {
         id: 'site3',
-        title: 'Landing Page para App',
+        title: 'Aplicativo Mobile B2B',
         description:
-          'Página de captura para um aplicativo móvel, projetada para maximizar conversões e apresentar o produto de forma eficaz.',
+          'Criação de um aplicativo móvel para otimização da força de vendas, com funcionalidades offline e sincronização em tempo real.',
         link: '#',
         image: 'https://placehold.co/600x400.png',
       },
     ],
   },
   gallery: {
-    title: 'Galeria',
+    title: 'Nossa Cultura e Espaço',
     photos: [
       {
         id: 'photo1',
         src: 'https://placehold.co/600x400.png',
-        alt: 'Descrição da foto 1',
-        hint: 'nature landscape',
+        alt: 'Equipe em colaboração',
+        hint: 'team meeting',
       },
       {
         id: 'photo2',
         src: 'https://placehold.co/600x400.png',
-        alt: 'Descrição da foto 2',
-        hint: 'city architecture',
+        alt: 'Escritório moderno',
+        hint: 'modern office',
       },
       {
         id: 'photo3',
         src: 'https://placehold.co/600x400.png',
-        alt: 'Descrição da foto 3',
-        hint: 'abstract texture',
+        alt: 'Evento da empresa',
+        hint: 'corporate event',
       },
       {
         id: 'photo4',
         src: 'https://placehold.co/600x400.png',
-        alt: 'Descrição da foto 4',
-        hint: 'portrait person',
+        alt: 'Sessão de brainstorming',
+        hint: 'whiteboard brainstorming',
       },
       {
         id: 'photo5',
         src: 'https://placehold.co/600x400.png',
-        alt: 'Descrição da foto 5',
-        hint: 'animal wildlife',
+        alt: 'Detalhe da arquitetura do escritório',
+        hint: 'office architecture',
       },
       {
         id: 'photo6',
         src: 'https://placehold.co/600x400.png',
-        alt: 'Descrição da foto 6',
-        hint: 'food delicious',
+        alt: 'Momentos de descontração da equipe',
+        hint: 'team coffee',
       },
     ],
   },
   contact: {
-    title: 'Contato',
+    title: 'Fale Conosco',
   },
 };
 

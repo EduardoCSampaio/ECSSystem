@@ -87,9 +87,9 @@ export function AppHeader({ content, setContent, initialContent }: AppHeaderProp
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center justify-between">
-        <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="Logo" width={32} height={32} />
-            <h1 className="text-xl font-headline font-bold text-foreground">{content.header.title}</h1>
+        <div className="flex items-center gap-4">
+            <Image src="/logo.png" alt="Logo" width={36} height={36} />
+            <h1 className="text-xl font-bold text-foreground">{content.header.title}</h1>
         </div>
         <div className="flex items-center gap-2">
            <Button variant="outline" size="sm" onClick={resetChanges}>
@@ -98,7 +98,7 @@ export function AppHeader({ content, setContent, initialContent }: AppHeaderProp
           </Button>
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" className="text-accent hover:text-accent">
+              <Button>
                 <Sparkles className="mr-2 h-5 w-5" />
                 Melhorar com IA
               </Button>
@@ -126,15 +126,15 @@ export function AppHeader({ content, setContent, initialContent }: AppHeaderProp
               {enhancedContent && (
                  <div className="space-y-6 rounded-lg border bg-card p-4 text-sm">
                   <div>
-                    <h3 className="font-bold font-headline text-primary">Título Sugerido</h3>
+                    <h3 className="font-bold text-primary">Título Sugerido</h3>
                     <p className="text-muted-foreground">{enhancedContent.header.title}</p>
                   </div>
                   <div>
-                    <h3 className="font-bold font-headline text-primary">Introdução Sugerida</h3>
+                    <h3 className="font-bold text-primary">Introdução Sugerida</h3>
                     <p className="text-muted-foreground">{enhancedContent.introduction.about}</p>
                   </div>
                   <div>
-                    <h3 className="font-bold font-headline text-primary">Descrições de Projetos Sugeridas</h3>
+                    <h3 className="font-bold text-primary">Descrições de Projetos Sugeridas</h3>
                     <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                       {enhancedContent.websites.items.map(item => (
                         <li key={item.id}>{item.description}</li>

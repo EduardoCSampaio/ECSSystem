@@ -22,13 +22,13 @@ const WebsiteCard = ({ item }: { item: Website }) => (
       />
     </div>
     <CardHeader>
-      <CardTitle className="font-headline text-xl">{item.title}</CardTitle>
-      <CardDescription className="font-body h-20">{item.description}</CardDescription>
+      <CardTitle className="text-xl">{item.title}</CardTitle>
+      <CardDescription className="h-20">{item.description}</CardDescription>
     </CardHeader>
     <CardFooter className="mt-auto">
-      <Button asChild className="w-full" variant="outline">
+      <Button asChild className="w-full">
         <Link href={item.link}>
-          Visitar Site
+          Ver Case Study
           <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
       </Button>
@@ -41,8 +41,8 @@ export function WebsiteShowcase({ content }: WebsiteShowcaseProps) {
     <section id="websites" className="py-16 sm:py-24">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="font-headline text-4xl font-bold text-foreground">{content.title}</h2>
-          <p className="text-muted-foreground mt-2 text-lg">Uma seleção dos nossos melhores projetos.</p>
+          <h2 className="text-4xl font-bold text-foreground">{content.title}</h2>
+          <p className="text-muted-foreground mt-2 text-lg">Conheça alguns dos desafios que transformamos em sucesso.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {content.items.map((item, index) => (

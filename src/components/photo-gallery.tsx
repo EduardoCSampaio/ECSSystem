@@ -23,11 +23,11 @@ const PhotoCard = ({ photo }: { photo: Photo }) => (
 
 export function PhotoGallery({ content }: PhotoGalleryProps) {
   return (
-    <section id="gallery" className="bg-card py-16 sm:py-24">
+    <section id="gallery" className="bg-muted/20 py-16 sm:py-24">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="font-headline text-4xl font-bold text-foreground">{content.title}</h2>
-          <p className="text-muted-foreground mt-2 text-lg">Uma amostra visual do nosso trabalho.</p>
+          <h2 className="text-4xl font-bold text-foreground">{content.title}</h2>
+          <p className="text-muted-foreground mt-2 text-lg">Conheça o ambiente que inspira nossa inovação.</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
           {content.photos.map((photo, index) => (
