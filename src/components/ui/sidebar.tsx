@@ -5,7 +5,6 @@ import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
 
-import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -45,6 +44,23 @@ function useSidebar() {
   }
 
   return context
+}
+
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkDevice()
+    window.addEventListener("resize", checkDevice)
+    return () => {
+      window.removeEventListener("resize", checkDevice)
+    }
+  }, [])
+
+  return isMobile
 }
 
 const SidebarProvider = React.forwardRef<
