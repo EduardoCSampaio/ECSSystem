@@ -15,17 +15,7 @@ import { Label } from '@/components/ui/label';
 import { Wand2, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import content from '@/data/content.json';
-import { handleEnhanceText } from '@/app/actions';
-
-// Simulação de API para salvar o conteúdo.
-const api = {
-  updateContent: async (newContent: any) => {
-    console.log('Salvando conteúdo:', newContent);
-    // Em um cenário real, você faria um POST para uma API route que atualizaria o content.json
-    // Por enquanto, as alterações não persistirão ao recarregar.
-    return { success: true };
-  },
-};
+import { handleEnhanceText, handleSaveContent } from '@/app/actions';
 
 export default function AdminTextPage() {
   const { toast } = useToast();
@@ -67,11 +57,15 @@ export default function AdminTextPage() {
     };
 
     try {
-      await api.updateContent(newContent);
-      toast({
-        title: 'Textos Salvos!',
-        description: 'Os textos do site foram atualizados com sucesso.',
-      });
+      const result = await handleSaveContent(newContent);
+      if (result.success) {
+        toast({
+          title: 'Textos Salvos!',
+          description: 'Os textos do site foram atualizados com sucesso.',
+        });
+      } else {
+        throw new Error(result.message);
+      }
     } catch (error) {
       toast({
         variant: 'destructive',

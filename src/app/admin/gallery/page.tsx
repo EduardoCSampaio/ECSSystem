@@ -13,14 +13,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { PlusCircle, Trash2 } from 'lucide-react';
+import { PlusCircle, Trash2, Loader2 } from 'lucide-react';
 import content from '@/data/content.json';
 import type { Photo } from '@/lib/types';
+import { handleSaveContent } from '@/app/actions';
 
 export default function AdminGalleryPage() {
   const { toast } = useToast();
   const [homePhotos, setHomePhotos] = useState<Photo[]>(content.home.gallery.photos);
   const [aboutPhotos, setAboutPhotos] = useState<Photo[]>(content.about.gallery.photos);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleAddPhoto = (section: 'home' | 'about', event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -58,9 +60,53 @@ export default function AdminGalleryPage() {
         }
         toast({
             title: 'Foto Excluída!',
-            description: 'A foto foi removida da galeria.',
+            description: 'A foto foi removida da galeria. Lembre-se de salvar para persistir a exclusão.',
         });
      }
+  };
+
+  const handleSaveChanges = async () => {
+    setIsSaving(true);
+    
+    // Cria a nova estrutura do conteúdo com as fotos atualizadas
+    const newContent = {
+      ...content,
+      home: {
+        ...content.home,
+        gallery: {
+          ...content.home.gallery,
+          photos: homePhotos,
+        },
+      },
+      about: {
+        ...content.about,
+        gallery: {
+          ...content.about.gallery,
+          photos: aboutPhotos,
+        },
+      },
+    };
+
+    try {
+      const result = await handleSaveContent(newContent);
+      if (result.success) {
+        toast({
+          title: 'Galeria Salva!',
+          description: 'As alterações na galeria foram salvas com sucesso.',
+        });
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: 'destructive',
+        title: 'Erro ao Salvar',
+        description: 'Não foi possível salvar as alterações na galeria.',
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -163,9 +209,12 @@ export default function AdminGalleryPage() {
         </CardContent>
       </Card>
 
-       {/* <div className="flex justify-end mt-4">
-            <Button disabled>Salvar Alterações</Button>
-        </div> */}
+       <div className="flex justify-end mt-4">
+          <Button onClick={handleSaveChanges} disabled={isSaving}>
+            {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+            Salvar Alterações
+          </Button>
+        </div>
     </div>
   );
 }

@@ -29,25 +29,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { PlusCircle, Edit, Trash2 } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Loader2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import content from '@/data/content.json';
 import type { Website } from '@/lib/types';
 import Image from 'next/image';
-
-// Esta é uma simulação. Em uma aplicação real, você faria chamadas para uma API.
-const api = {
-  updateContent: async (newContent: any) => {
-    console.log('Salvando conteúdo:', newContent);
-    // Simula uma chamada de API que pode falhar
-    if (Math.random() < 0.1) {
-      throw new Error('Falha ao salvar no servidor.');
-    }
-    // Em um cenário real, você enviaria `newContent` para o seu backend para salvar no arquivo JSON.
-    // Por enquanto, as alterações não serão persistidas ao recarregar a página.
-    return true;
-  },
-};
+import { handleSaveContent } from '@/app/actions';
 
 export default function AdminProjectsPage() {
   const { toast } = useToast();
@@ -56,46 +43,79 @@ export default function AdminProjectsPage() {
   const [editingProject, setEditingProject] = useState<Website | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleSave = async (newProject: Website) => {
-    setIsSaving(true);
+  // Função para salvar um único projeto (adicionar ou editar) no estado local
+  const handleSaveProject = (newProject: Website) => {
     let updatedProjects;
     if (editingProject) {
+      // Editando um projeto existente
       updatedProjects = projects.map((p) =>
         p.id === newProject.id ? newProject : p
       );
     } else {
+      // Adicionando um novo projeto
       updatedProjects = [...projects, { ...newProject, id: `site${Date.now()}` }];
     }
-
-    try {
-      // Em uma aplicação real, você atualizaria o arquivo JSON no servidor.
-      // Aqui estamos apenas atualizando o estado local.
-      setProjects(updatedProjects);
-      toast({
-        title: 'Projeto Salvo!',
-        description: 'Seu projeto foi salvo com sucesso.',
-      });
-      setIsDialogOpen(false);
-      setEditingProject(null);
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Erro ao Salvar',
-        description: 'Não foi possível salvar as alterações.',
-      });
-    } finally {
-      setIsSaving(false);
-    }
+    setProjects(updatedProjects);
+    toast({
+      title: `Projeto ${editingProject ? 'Atualizado' : 'Adicionado'}!`,
+      description: 'Lembre-se de salvar todas as alterações para persistir os dados.',
+    });
+    setIsDialogOpen(false);
+    setEditingProject(null);
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Tem certeza que deseja excluir este projeto?')) {
+    if (confirm('Tem certeza que deseja excluir este projeto? Esta ação é temporária até você salvar.')) {
       const updatedProjects = projects.filter((p) => p.id !== id);
       setProjects(updatedProjects);
        toast({
-        title: 'Projeto Excluído!',
-        description: 'O projeto foi excluído com sucesso.',
+        title: 'Projeto Removido!',
+        description: 'O projeto foi removido da lista. Clique em "Salvar Alterações" para confirmar.',
+       });
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    setIsSaving(true);
+    
+    // Estrutura do novo conteúdo a ser salvo
+    const newContent = {
+      ...content,
+      projects: {
+        ...content.projects,
+        websites: {
+          ...content.projects.websites,
+          items: projects,
+        },
+      },
+      // Sincroniza os 3 primeiros projetos com a página inicial
+      home: {
+        ...content.home,
+        websites: {
+          ...content.home.websites,
+          items: projects.slice(0, 3),
+        }
+      }
+    };
+
+    try {
+      const result = await handleSaveContent(newContent);
+      if (result.success) {
+        toast({
+          title: 'Projetos Salvos!',
+          description: 'Suas alterações nos projetos foram salvas com sucesso.',
+        });
+      } else {
+        throw new Error(result.message);
+      }
+    } catch (error) {
+       toast({
+        variant: 'destructive',
+        title: 'Erro ao Salvar',
+        description: 'Não foi possível salvar as alterações no servidor.',
       });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -120,9 +140,15 @@ export default function AdminProjectsPage() {
                 Adicione, edite ou remova os projetos do seu site.
               </CardDescription>
             </div>
-            <Button onClick={openNewDialog}>
-              <PlusCircle className="mr-2 h-4 w-4" /> Novo Projeto
-            </Button>
+            <div className="flex items-center gap-4">
+              <Button onClick={openNewDialog}>
+                <PlusCircle className="mr-2 h-4 w-4" /> Novo Projeto
+              </Button>
+               <Button onClick={handleSaveChanges} disabled={isSaving}>
+                {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                Salvar Alterações
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -178,8 +204,7 @@ export default function AdminProjectsPage() {
         isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
         project={editingProject}
-        onSave={handleSave}
-        isSaving={isSaving}
+        onSave={handleSaveProject}
       />
     </div>
   );
@@ -191,13 +216,13 @@ interface ProjectDialogProps {
   setIsOpen: (open: boolean) => void;
   project: Website | null;
   onSave: (project: Website) => void;
-  isSaving: boolean;
 }
 
-function ProjectDialog({ isOpen, setIsOpen, project, onSave, isSaving }: ProjectDialogProps) {
+function ProjectDialog({ isOpen, setIsOpen, project, onSave }: ProjectDialogProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(''); // Armazenará a imagem como data URI
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -231,12 +256,13 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave, isSaving }: Project
       alert('Por favor, faça o upload de uma imagem.');
       return;
     }
+    // Apenas chama onSave para atualizar o estado local. A persistência é feita em "handleSaveChanges"
     onSave({
-      id: project?.id || '', // ID será definido na função onSave se for novo
+      id: project?.id || '',
       title,
       description,
       image,
-      link: '#', // O link pode ser adicionado aqui se necessário
+      link: '#', 
     });
   };
 
@@ -308,7 +334,7 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave, isSaving }: Project
               </Button>
             </DialogClose>
             <Button type="submit" disabled={isSaving}>
-              {isSaving ? 'Salvando...' : 'Salvar'}
+              {isSaving ? 'Salvando...' : 'Salvar no Rascunho'}
             </Button>
           </DialogFooter>
         </form>
