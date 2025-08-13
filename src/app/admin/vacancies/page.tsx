@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -28,7 +29,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { PlusCircle, Edit, Trash2, Loader2, Briefcase, Skeleton } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Loader2, Briefcase } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
 import type { Vacancy } from '@/lib/types';
 import { handleSaveContent, getContent } from '@/app/actions';
@@ -45,7 +47,7 @@ export default function AdminVacanciesPage() {
     async function loadContent() {
       setIsLoading(true);
       const content = await getContent();
-      if (content) {
+      if (content && content.vacancies) {
         setVacancies(content.vacancies.items);
       }
       setIsLoading(false);
@@ -86,10 +88,19 @@ export default function AdminVacanciesPage() {
   const handleSaveChanges = async () => {
     setIsSaving(true);
     
+    const currentContent = await getContent();
+    if (!currentContent) {
+        toast({ variant: 'destructive', title: 'Erro', description: 'Não foi possível carregar o conteúdo existente.' });
+        setIsSaving(false);
+        return;
+    }
+
     const newContent = {
-      vacancies: {
-        items: vacancies,
-      },
+        ...currentContent,
+        vacancies: {
+            ...currentContent.vacancies,
+            items: vacancies,
+        },
     };
 
     try {
@@ -348,3 +359,5 @@ function VacancyDialog({ isOpen, setIsOpen, vacancy, onSave }: VacancyDialogProp
     </Dialog>
   );
 }
+
+    

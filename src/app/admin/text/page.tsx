@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -12,7 +13,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Wand2, Loader2, Skeleton } from 'lucide-react';
+import { Wand2, Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
 import { handleEnhanceText, handleSaveContent, getContent } from '@/app/actions';
 
@@ -51,16 +53,28 @@ export default function AdminTextPage() {
 
   const handleSave = async () => {
     setIsSaving(true);
+    const currentContent = await getContent();
+    if (!currentContent) {
+        toast({ variant: 'destructive', title: 'Erro', description: 'Não foi possível carregar o conteúdo existente.' });
+        setIsSaving(false);
+        return;
+    }
+    
     const newContent = {
+      ...currentContent,
       home: {
+        ...currentContent.home,
         introduction: {
+          ...currentContent.home.introduction,
           profession: homeProfession,
           name: homeName,
           about: homeAbout,
         },
       },
       about: {
+        ...currentContent.about,
         introduction: {
+          ...currentContent.about.introduction,
           profession: aboutProfession,
           name: aboutName,
           about: aboutAbout,
@@ -245,3 +259,5 @@ export default function AdminTextPage() {
     </div>
   );
 }
+
+    

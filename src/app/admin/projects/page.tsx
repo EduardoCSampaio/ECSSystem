@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -28,7 +29,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { PlusCircle, Edit, Trash2, Loader2, Skeleton } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/use-toast';
 import type { Website } from '@/lib/types';
 import Image from 'next/image';
@@ -46,7 +48,7 @@ export default function AdminProjectsPage() {
     async function loadContent() {
       setIsLoading(true);
       const content = await getContent();
-      if (content) {
+      if (content && content.projects && content.projects.websites) {
         setProjects(content.projects.websites.items);
       }
       setIsLoading(false);
@@ -89,19 +91,29 @@ export default function AdminProjectsPage() {
   const handleSaveChanges = async () => {
     setIsSaving(true);
     
-    // Estrutura do novo conteúdo a ser salvo
+    const currentContent = await getContent();
+    if (!currentContent) {
+        toast({ variant: 'destructive', title: 'Erro', description: 'Não foi possível carregar o conteúdo existente.' });
+        setIsSaving(false);
+        return;
+    }
+
     const newContent = {
-      projects: {
-        websites: {
-          items: projects,
+        ...currentContent,
+        projects: {
+            ...currentContent.projects,
+            websites: {
+                ...currentContent.projects.websites,
+                items: projects,
+            },
         },
-      },
-      // Sincroniza os 3 primeiros projetos com a página inicial
-      home: {
-        websites: {
-          items: projects.slice(0, 3),
+        home: {
+            ...currentContent.home,
+            websites: {
+                ...currentContent.home.websites,
+                items: projects.slice(0, 3),
+            }
         }
-      }
     };
 
     try {
@@ -386,3 +398,5 @@ function ProjectDialog({ isOpen, setIsOpen, project, onSave }: ProjectDialogProp
     </Dialog>
   );
 }
+
+    

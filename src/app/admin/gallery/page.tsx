@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -13,7 +14,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { PlusCircle, Trash2, Loader2, Skeleton } from 'lucide-react';
+import { PlusCircle, Trash2, Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import type { Photo } from '@/lib/types';
 import { handleSaveContent, getContent } from '@/app/actions';
 
@@ -81,18 +83,30 @@ export default function AdminGalleryPage() {
   const handleSaveChanges = async () => {
     setIsSaving(true);
     
+    const currentContent = await getContent();
+    if (!currentContent) {
+        toast({ variant: 'destructive', title: 'Erro', description: 'Não foi possível carregar o conteúdo existente.' });
+        setIsSaving(false);
+        return;
+    }
+    
     // Cria a nova estrutura do conteúdo com as fotos atualizadas
     const newContent = {
-      home: {
-        gallery: {
-          photos: homePhotos,
+        ...currentContent,
+        home: {
+            ...currentContent.home,
+            gallery: {
+                ...currentContent.home.gallery,
+                photos: homePhotos,
+            },
         },
-      },
-      about: {
-        gallery: {
-          photos: aboutPhotos,
+        about: {
+            ...currentContent.about,
+            gallery: {
+                ...currentContent.about.gallery,
+                photos: aboutPhotos,
+            },
         },
-      },
     };
 
     try {
@@ -244,3 +258,5 @@ export default function AdminGalleryPage() {
     </div>
   );
 }
+
+    
