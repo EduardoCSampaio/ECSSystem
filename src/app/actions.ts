@@ -14,7 +14,7 @@ const contactFormSchema = z.object({
 });
 
 // Caminho para o arquivo de conteúdo
-const contentFilePath = path.join(process.cwd(), 'src', 'data', 'content.json');
+const contentFilePath = path.join(__dirname, '..', '..', '..', 'src', 'data', 'content.json');
 
 // Nova função para ler o conteúdo do arquivo
 export async function getContent() {
